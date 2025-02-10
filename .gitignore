@@ -1,0 +1,27 @@
+# Ignore build outputs
+*.elf
+*.o
+*.d
+*.lst
+*.map
+
+# Ignore Atmel Studio generated files
+.vs/
+Debug/
+Release/
+*.aps
+*.sdf
+*.ncb
+*.opendb
+*.tlog
+*.user
+*.suo
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.swp
+*.swo
+*.bak
