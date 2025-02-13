@@ -3,7 +3,7 @@
  *
  *
   2 Buttons are connected to PB0 & PB1 (PIN 1 and PIN 2 of Atmega 16) and GND.
-  A total of 14 LEDs are connected, with 7 LEDs on PD0 to PD6 and 7 LEDs on PC0 to PC6, each in series with a 330? resistor to GND.
+  A total of 14 LEDs are connected, with 7 LEDs on PD0 to PD6 and 7 LEDs on PC0 to PC6, each in series with a 330 R resistor to GND.
   Each button controls either of the PORT LEDs. Pressing either Button increases the LED count (glow) of respective PORT/side.
   2 Players are needed to press the button. Whoever presses the button fast to light up all the 7 LEDs on his PORT/side wins the game.
   
