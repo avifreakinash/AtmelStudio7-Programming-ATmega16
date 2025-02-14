@@ -20,28 +20,37 @@ This repository contains **embedded C programs** for the **ATmega16 microcontrol
 
 #### ⚡ Getting Started
 	1️⃣ Requirements
-		📌 Hardware:
+```
+📌 Hardware:
 					ATmega16 Microcontroller
 					AVR Programmer (USBasp, AVRISP mkII, etc.)
 					LEDs, Buttons, and Sensors 
-		📌 Software:
+📌 Software:
 					Atmel Studio 7 (Download: Microchip)
 					AVRDUDE (for flashing HEX files)
 					Git (for version control)
+```
+
 	2️⃣ How to Build & Flash
-			🔹 Build the Project
-				  Open Atmel Studio 7
-				  Load the main.c file
-				  Click Build → Build Solution (F7)
-		  🔹 Flash the HEX File
-				  📌 Using AVRDUDE:
-					   avrdude -c usbasp -p m16 -U flash:w:hex/main.hex:i
-          
-          📌 Using configurable Tools in AtmelStudio7 for External Programmer (USBasp):
-			           How to Configure -
-			           Navigate to Tools → Extended Tools :
-				              Title		    :	USBasp Release
-				              Path		    :	C:\avrdude-6.3-mingw32\avrdude.exe ( path to the dir where avrdude is installed)
-                      Arguments	  :	-c USBasp -p m16 -U flash:w:$(ProjectDir)\Release\$(TargetName).hex:i
-						     To flash the program, go to Tools and click **USBasp Release**. The flashing should get start.
-			✔ This will upload the program to ATmega16 using a USBasp programmer.
+```
+🔹 Build the Project
+				Open Atmel Studio 7
+				Load the main.c file
+				Click Build → Build Solution (F7)
+
+🔹 Flash the HEX File
+
+	📌 Using AVRDUDE:
+				avrdude -c usbasp -p m16 -U flash:w:hex/main.hex:i
+
+	📌 Using configurable Tools in AtmelStudio7 for External Programmer (USBasp):
+
+				How to Configure -
+
+				Navigate to Tools → Extended Tools :
+				Title		:	USBasp Release
+				Path		:	C:\avrdude-6.3-mingw32\avrdude.exe ( path to the dir where avrdude is installed)
+				Arguments	:	-c USBasp -p m16 -U flash:w:$(ProjectDir)\Release\$(TargetName).hex:i
+
+```
+> To flash the program, go to Tools and click **USBasp Release**. The flashing should start. This will upload the program to ATmega16 using the USBasp programmer.
