@@ -19,13 +19,13 @@
 #define F_CPU 1000000UL
 #include <avr/io.h>
 #include <util/delay.h>
-void ProcessButtonPressed(int Button_id, volatile uint8_t *port);
+void ProcessButtonPressed(int Button_id);
 void ProcessButtonReleased(int Button_id);
 void Blink_All_LEDs(volatile uint8_t *port);
 
 
 int LED_Number[2] ;
-int Pressed_count[2];			// Counter to hold the state of LEDs until button is pressed again
+int Pressed[2];			// Counter to hold the state of LEDs until button is pressed again
 int Stream_of_Zeros[2];			// When button is Pressed, the micro controller button pin goes LOW and generates a streams of few "Zero and Ones" before finally coming to Zero, and
 								// creating a stable stream of Zeros until the button is not Released
 int Streams_of_Ones[2];			// When Button is Released, the micro controller button pin goes HIGH and generates a streams of few "Ones and Zeros" before finally coming to ONE, and
@@ -43,10 +43,10 @@ int main(void)
 	
 	while (1)
 	{				
-		if (  bit_is_clear(PINB , 0) )		ProcessButtonPressed(0,&PORTD);		 //  If Button is Pressed on SIDE 1  
+		if (  bit_is_clear(PINB , 0) )		ProcessButtonPressed(0);		 //  If Button is Pressed on SIDE 1  
 		else	ProcessButtonReleased(0);										// if Button is Released 
 		 
-		if (  bit_is_clear(PINB , 1) )		ProcessButtonPressed(1,&PORTC);		 //  If Button is Pressed on SIDE 2
+		if (  bit_is_clear(PINB , 1) )		ProcessButtonPressed(1);		 //  If Button is Pressed on SIDE 2
 		else	ProcessButtonReleased(1);										// if Button is Released	
 	}
 }
@@ -63,21 +63,37 @@ void Blink_All_LEDs (volatile uint8_t *port)
 }
 
 
-void ProcessButtonPressed(int Button_id, volatile uint8_t *port)
+void ProcessButtonPressed(int Button_id)
 {
 	Stream_of_Zeros[Button_id]++;					// Count a good amount of continuous ZEROs to be sure that button is actually pressed
 	if (Stream_of_Zeros[Button_id] >= 500)
 	{
-		if (Pressed_count[Button_id] == 0)		// when counter = 0 from previous else call or initially
+		if (Pressed[Button_id] == 0)		// when counter = 0 from previous else call or initially	Pressed[0] == 0
+												//															Pressed[1] == 0
 		{
-			Pressed_count[Button_id] = 1;			// set counter
-			*port |=	 1<<LED_Number[Button_id];
-			LED_Number[Button_id]++;
-			if (LED_Number[Button_id] > 6)
+			Pressed[Button_id] = 1;			// set counter
+			if (Button_id == 0)
 			{
-				Blink_All_LEDs( port );
-				LED_Number[Button_id] = 0;
+				PORTD |=	 1<<LED_Number[Button_id];	// LED_Number[0] 
+				LED_Number[Button_id]++;
+				if (LED_Number[Button_id] > 6)
+				{
+					Blink_All_LEDs( &PORTD );
+					LED_Number[Button_id] = 0;
+				}
 			}
+			if (Button_id == 1)
+			{
+				PORTC |=	 1<<LED_Number[Button_id];
+				LED_Number[Button_id]++;
+				if (LED_Number[Button_id] > 6)
+				{
+					Blink_All_LEDs( &PORTC );
+					LED_Number[Button_id] = 0;
+				}
+			}
+			
+			
 		}
 		Stream_of_Zeros[Button_id] =0;
 	}
@@ -88,7 +104,7 @@ void ProcessButtonPressed(int Button_id, volatile uint8_t *port)
 	 Streams_of_Ones[Button_id]++;			 // Count a good amount of continuous ONEs to be sure that button is actually released
 	 if (Streams_of_Ones[Button_id] >= 500)
 	 {
-		 Pressed_count[Button_id] = 0;		// Reset counter
+		 Pressed[Button_id] = 0;		// Reset counter
 		 Streams_of_Ones[Button_id] = 0;
 	 }
  }
