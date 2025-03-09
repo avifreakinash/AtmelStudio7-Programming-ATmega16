@@ -9,7 +9,7 @@
  The LEDs on PORTD illuminate sequentially, each lighting up every 1/7th of a second.
  Once all PORTD LEDs have lit up, the LEDs on PORTC follow the same pattern, with each turning on every second.
 
- The program utilizes an 8-bit Timer/Counter with a prescaler of 1024 to control LED timing.
+ The program utilizes an 8-bit Timer/Counter (TCNT0) with a prescaler of 1024 to control LED timing.
  */
 
 
